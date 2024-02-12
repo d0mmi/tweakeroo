@@ -26,7 +26,6 @@ public abstract class MixinInGameHud
 {
     @Shadow @Final private PlayerListHud playerListHud;
     @Shadow @Final private MinecraftClient client;
-    @Shadow private int scaledWidth;
 
     @Inject(method = "getCameraPlayer", at = @At("HEAD"), cancellable = true)
     private void overridePlayerForRendering(CallbackInfoReturnable<PlayerEntity> cir)
@@ -61,7 +60,7 @@ public abstract class MixinInGameHud
             ScoreboardObjective objective = scoreboard.getObjectiveForSlot(ScoreboardDisplaySlot.LIST);
 
             this.playerListHud.setVisible(true);
-            this.playerListHud.render(drawContext, this.scaledWidth, scoreboard, objective);
+            this.playerListHud.render(drawContext, this.client.getWindow().getScaledWidth(), scoreboard, objective);
         }
     }
 

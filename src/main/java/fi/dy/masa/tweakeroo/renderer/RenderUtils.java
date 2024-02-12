@@ -2,6 +2,7 @@ package fi.dy.masa.tweakeroo.renderer;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import org.joml.Matrix4f;
+import org.joml.Matrix4fStack;
 import org.joml.Quaternionf;
 
 import net.minecraft.block.Block;
@@ -295,19 +296,19 @@ public class RenderUtils
         int width = GuiUtils.getScaledWindowWidth();
         int height = GuiUtils.getScaledWindowHeight();
         Camera camera = mc.gameRenderer.getCamera();
-        MatrixStack matrixStack = RenderSystem.getModelViewStack();
-        matrixStack.push();
-        matrixStack.translate(width / 2.0, height / 2.0, zLevel);
+        Matrix4fStack matrixStack = RenderSystem.getModelViewStack();
+        matrixStack.pushMatrix();
+        matrixStack.translate(width / 2.0f, height / 2.0f, zLevel);
         float pitch = camera.getPitch();
         float yaw = camera.getYaw();
         Quaternionf rot = new Quaternionf().rotationXYZ(-pitch * (float) (Math.PI / 180.0), yaw * (float) (Math.PI / 180.0), 0.0F);
-        matrixStack.multiply(rot);
+        matrixStack.rotate(rot);
         //matrixStack.multiply(RotationAxis.NEGATIVE_X.rotationDegrees(camera.getPitch()));
         //matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(camera.getYaw()));
         matrixStack.scale(-1.0F, -1.0F, -1.0F);
         RenderSystem.applyModelViewMatrix();
         RenderSystem.renderCrosshair(10);
-        matrixStack.pop();
+        matrixStack.popMatrix();
         RenderSystem.applyModelViewMatrix();
     }
 

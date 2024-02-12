@@ -1079,7 +1079,7 @@ public class InventoryUtils
             return;
         }
 
-        double reach = mc.interactionManager.getReachDistance();
+        double reach = player.getBlockInteractionRange();
         boolean isCreative = player.isCreative();
         HitResult trace = player.raycast(reach, mc.getTickDelta(), false);
 
